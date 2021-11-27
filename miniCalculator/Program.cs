@@ -11,6 +11,7 @@ class Calculator{
         while (continueCalc)
         {
             Console.WriteLine("[ Pick a Option ]\nA. Read From A File\nB. Self-Input");
+            Console.Write("Your Input (A/B): ");
             string? option = Console.ReadLine();
             string? str;
             if(option == null){

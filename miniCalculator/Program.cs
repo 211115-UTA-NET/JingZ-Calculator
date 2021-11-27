@@ -10,7 +10,7 @@ class Calculator{
         StreamWriter history = new StreamWriter("./CalcHistory.txt");
         while (continueCalc)
         {
-            Console.WriteLine("[Pick A Option:]\nA. Read From A File\nB. Self-Input");
+            Console.WriteLine("[ Pick a Option ]\nA. Read From A File\nB. Self-Input");
             string? option = Console.ReadLine();
             string? str;
             if(option == null){
@@ -120,8 +120,8 @@ class Calculator{
         return false;
     } 
     public static string ConvertExpr(string str){
-        int tmp = 0;
-        bool isInt = int.TryParse(str, out tmp);
+        double tmp = 0;
+        bool isDouble = Double.TryParse(str, out tmp);
         if(mul.Contains(str)){
             return "*";
         } else if(div.Contains(str)){
@@ -130,8 +130,8 @@ class Calculator{
             return "+";
         } else if(subtract.Contains(str)){
             return "-";
-        } else if(nums.Contains(str) || isInt){
-            if(isInt){     // is a number
+        } else if(nums.Contains(str) || isDouble){
+            if(isDouble){     // is a number
                 return str;
             } else      // is a text number
             {

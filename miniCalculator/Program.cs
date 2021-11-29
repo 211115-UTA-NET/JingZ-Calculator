@@ -29,11 +29,10 @@ class Calculator{
                     continue;
                 }
                 StreamReader readExpr = new StreamReader(path);
-                str = readExpr.ReadLine();
                 history.WriteLine("========== FILE CALCULATION ==========");
-                while(str != null){
-                    Calculation(str, history);
+                while(readExpr.Peek() != -1){
                     str = readExpr.ReadLine();
+                    Calculation(str, history);
                 }
                 history.WriteLine("======================================");
                 readExpr.Close();

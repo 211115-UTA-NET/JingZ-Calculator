@@ -2,4 +2,4 @@
 two x five sub 13
 45 mul THREE
 5+7*9/2*3
-23 times two
+23 times two x 33 - 7 / 6

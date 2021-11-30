@@ -7,6 +7,7 @@ class Calculator{
     private static string[] subtract = { "subtract", "minus", "sub", "subtr", "-"};
     public static void Main(string[] args){
         bool continueCalc = true;
+        // record calculations and output to CalcHistory.txt
         StreamWriter history = new StreamWriter("./CalcHistory.txt");
         while (continueCalc)
         {
@@ -28,13 +29,14 @@ class Calculator{
                     Console.WriteLine("--- File Does Not Exist. Go Back To Main Menu. ---");
                     continue;
                 }
+                // read expression from a file path
                 StreamReader readExpr = new StreamReader(path);
-                history.WriteLine("========== FILE CALCULATION ==========");
+                history.WriteLine($"=== FILE CALCULATION: [{path}] ===");
                 while(readExpr.Peek() != -1){
-                    str = readExpr.ReadLine();
-                    Calculation(str, history);
+                    str = readExpr.ReadLine();  // read each line
+                    Calculation(str, history);  // calculate the expression
                 }
-                history.WriteLine("======================================");
+                history.WriteLine("============================================");    // write to history
                 readExpr.Close();
                 Console.Write("Do Anothor Calculation? (y/n) ");
                 continueCalc = CheckCond(Console.ReadLine());  // check conditions
@@ -51,23 +53,30 @@ class Calculator{
                 Console.WriteLine("--- Invalid Input! Please Try Again. ---");
                 continue;
             }
-            history.Flush();            // write to file
+            history.Flush(); // write to file
         }
-        history.Close();    // close file
+        history.Close();     // close file
     }
+    /* 
+        string? str: take user input (math expression)
+        StreamWriter history: a streamWriter to record the calculation
+    */
     public static void Calculation(string? str, StreamWriter history)
     {
         if (str != null && str.Length > 0)
         {
-            string[] textSplit = str.Split(' ');
+            string[] textSplit = str.Split(' ');    // split user input string
             string strExpr;
+            // check input contain text or not
             if (ContainStr(textSplit))
             {
                 List<string> expr = new List<string>();
                 for (int i = 0; i < textSplit.Length; i++)
                 {
+                    // convert text to arithmetic operations
                     expr.Add(ConvertExpr(textSplit[i].ToLower()));
                 }
+                // use Join() to convert List to string
                 strExpr = string.Join("", expr);
                 Console.WriteLine("[ Read in: " + str + " ] [ You mean: " + strExpr + " ]");
             }
@@ -76,8 +85,12 @@ class Calculator{
                 strExpr = str;
             }
             DataTable data = new DataTable();
-            // Compute() a expression and return a Object value
-            // Convert Object to Double
+            /* 
+                Use Compute() to compute an expression and return a Object value
+                    1st param: a valid math expression in string type
+                    2nd param: a filter which is no need in this project
+                Convert.ToDouble(): convert Object to Double
+            */
             double val = Convert.ToDouble(data.Compute(strExpr, ""));
             string outputAns = strExpr + " = " + Math.Round(val, 6) + "\n-------------------------------";  //rounded to 6 decimals
             Console.WriteLine("-------------------------------");
@@ -89,6 +102,7 @@ class Calculator{
             Console.WriteLine("--- PLEASE Enter Some Expression ---");
         }
     }
+    // CheckCond: a boolean method that checks user input yes or no
     public static bool CheckCond(string? c)
     {
         if(c == null){
@@ -109,18 +123,21 @@ class Calculator{
             return false;
         }
     }
+    // ContainStr: a boolean method that checks if user input contain texts or not
     public static bool ContainStr(string[] str){
         for (int i = 0; i < str.Length; i++)
         {
             string s = str[i].ToLower();
-            if(nums.Contains(s) || mul.Contains(s) || div.Contains(s) || plus.Contains(s) || subtract.Contains(s)){
+            if(nums.Contains(s) || mul.Contains(s) || div.Contains(s) || plus.Contains(s) || subtract.Contains(s)) {
                 return true;
             }
         }
         return false;
     } 
+    // ConvertExpr: convert text expression to arithmetic expression
     public static string ConvertExpr(string str){
         double tmp = 0;
+        // check is str a number or not 
         bool isDouble = Double.TryParse(str, out tmp);
         if(mul.Contains(str)){
             return "*";
@@ -141,7 +158,7 @@ class Calculator{
             return "";
         }
     }
-
+    // convertNums: convert text to number ( zero -> 0, one -> 1, two -> 2, three -> 3, ... )
     public static string ConvertNums(string num){
         for (int i = 0; i < nums.Length; i++)
         {

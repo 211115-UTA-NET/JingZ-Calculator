@@ -74,7 +74,7 @@ class Calculator{
                 for (int i = 0; i < textSplit.Length; i++)
                 {
                     // convert text to arithmetic operations
-                    expr.Add(ConvertExpr(textSplit[i].ToLower()));
+                    expr.Add(ConvertExpr(textSplit[i].ToLower()));      //ex: expr = 5+8-7
                 }
                 // use Join() to convert List to string
                 strExpr = string.Join("", expr);
